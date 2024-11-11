@@ -13,7 +13,7 @@ export default {
             currencies: {},
             convertedValue: undefined,
             amount: undefined,
-            from: 'EUR',
+            from: '',
             to: '',
             chartData: {}
         }
@@ -136,12 +136,18 @@ export default {
                 if (newValue && this.to) {
                     this.convertValue(this.from, this.to, this.amount);
                 }
+                if(this.from === '' || this.to === '') {
+                    this.convertedValue = undefined;
+                }
             }
         },
         to: {
             handler(newValue) {
                 if (newValue && newValue !== '') {
                     this.convertValue(this.from, this.to, this.amount);
+                }
+                if(this.from === '' || this.to === '') {
+                    this.convertedValue = undefined;
                 }
             }
         },
@@ -166,7 +172,7 @@ export default {
                 <InputAmount v-model:amount="amount" v-model:from="from" :currencies = currencies v-model:to="to" :convertedValue = convertedValue />
             </div>
             <div class="chart-container">
-                <div id="chart">
+                <div v-if="amount && amount !== 0 && from !== '' && to !== ''" id="chart">
                 </div>
             </div>
         </div>

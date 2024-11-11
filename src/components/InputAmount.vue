@@ -3,7 +3,7 @@ export default {
     name: 'InputAmount',
     data() {
         return {
-            selectedCurrency: 'EUR',
+            selectedCurrency: '',
             selectedCurrencyB: '',
             amountDefault: undefined,
         }
@@ -15,6 +15,24 @@ export default {
         to: String,
         convertedValue: Number,
     },
+    watch: {
+        selectedCurrency: {
+            handler(newValue){
+                if(newValue === ''){
+                    this.amountDefault = undefined;
+                    this.$emit('update:amount', this.amountDefault);
+                    this.$emit('update:from', '');
+                }
+            }
+        },
+        selectedCurrencyB: {
+            handler(newValue){
+                if(newValue === ''){
+                    this.$emit('update:to', '');
+                }
+            }
+        },
+    }
 }   
 </script>
 
@@ -26,8 +44,8 @@ export default {
             </div>
             <div class="w-[50%]">
                 <select class="w-full bg-green-200 text-center" @change="$emit('update:from', selectedCurrency)" v-model="selectedCurrency" name="" id="">
-                    <option :value="'EUR'">{{ currencies.EUR }}</option>
-                    <option v-for="currencie, key in currencies" :key="key" :value="key" >{{ currencie }}</option>
+                    <option selected value="">Seleziona una valuta</option>
+                    <option :disabled="key === selectedCurrencyB" v-for="currencie, key in currencies" :key="key" :value="key" >{{ currencie }}</option>
                 </select>
             </div>
         </div>
@@ -37,8 +55,8 @@ export default {
             </div>
             <div class="w-[50%]">
                 <select class="w-full bg-green-200 text-center" @change="$emit('update:to', selectedCurrencyB)" v-model="selectedCurrencyB" name="" id="">
-                    <option selected disabled value="">Seleziona una valuta</option>
-                    <option v-for="currencie, key in currencies" :key="key" :value="key" >{{ currencie }}</option>
+                    <option selected value="">Seleziona una valuta</option>
+                    <option :disabled="key === selectedCurrency" v-for="currencie, key in currencies" :key="key" :value="key" >{{ currencie }}</option>
                 </select>
             </div>
         </div>
