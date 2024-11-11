@@ -1,14 +1,12 @@
 <script>
 import axios from 'axios';
 import InputAmount from './InputAmount.vue';
-import ConvertedValue from './ConvertedValue.vue';
 import ApexCharts from 'apexcharts';
 
 export default {
     name: 'AppContainer',
     components: {
         InputAmount,
-        ConvertedValue
     },
     data(){
         return {
@@ -165,8 +163,7 @@ export default {
                 <h1 class="text-green-500 text-center text-3xl mb-1">CURRENCY BOOLVERTE</h1>
                 <div v-if="amount &&  from" class="text-green-200 text-xs">{{ amount }} {{ from }} è uguale a</div>
                 <div v-if="amount &&  from && to"  class="text-green-200 text-3xl">{{ convertedValue }} {{ to }}</div>
-                <InputAmount v-model:amount="amount" v-model:from="from" :currencies = currencies />
-                <ConvertedValue v-model:to="to" :convertedValue = convertedValue :currencies = currencies />
+                <InputAmount v-model:amount="amount" v-model:from="from" :currencies = currencies v-model:to="to" :convertedValue = convertedValue />
             </div>
             <div class="chart-container">
                 <div id="chart">
